@@ -52,7 +52,7 @@ export async function main(searchKeyword, numPerSite) {
   console.log("Searching for " + searchKeyword);
 
   const browser = await puppeteer.launch({
-    headless: 'new',
+    headless: true,
     args: [
       '--start-maximized',
       '--no-sandbox',
