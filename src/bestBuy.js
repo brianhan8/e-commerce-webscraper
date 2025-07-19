@@ -12,7 +12,8 @@ export async function fetchBestBuyProducts(query = "laptop", page = 1, maxResult
   const url = `https://www.bestbuy.ca/api/v2/json/search?query=${encodeURIComponent(query)}&page=${page}`;
   const res = await fetch(url);
 
-  console.log("Scraping site: BestBuy");
+  console.time("best buy");
+  
 
   if (!res.ok) {
     throw new Error(`Failed to fetch BestBuy products: ${res.status}`);
@@ -30,5 +31,6 @@ export async function fetchBestBuyProducts(query = "laptop", page = 1, maxResult
     reviewCount: p.customerReviewCount
   }));
 
+  console.timeEnd("best buy");
   return products;
 }
