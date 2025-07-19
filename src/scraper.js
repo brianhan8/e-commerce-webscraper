@@ -15,7 +15,7 @@ puppeteer.use(StealthPlugin());
 
 
 export async function scraper(site, page, searchKeyword, numPerSite) {
-  console.log(`Scraping site: ${site.site}`);
+  console.time(site.site);
 
   const encodedKeyword = encodeURIComponent(searchKeyword);
   let currentPageUrl = site.url.replaceAll("{query}", encodedKeyword);
@@ -100,6 +100,6 @@ export async function scraper(site, page, searchKeyword, numPerSite) {
       break; // no nextPageSelector defined
     }
   }
-
+  console.timeEnd(site.site);
   return products;
 }
