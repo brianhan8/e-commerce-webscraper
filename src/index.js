@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import puppeteerExtra from "puppeteer-extra";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import chromium from "chrome-aws-lambda";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import UserAgent from "user-agents";
 import { scraper } from "./scraper.js";
@@ -26,7 +27,13 @@ async function scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite) {
   });
 
   await page.setJavaScriptEnabled(true);
-  await page.setViewport({ width: 1366, height: 768 });
+  await page.setViewport(chromium.defaultViewport || { width: 1366, height: 768 });
+  const browser = await puppeteerExtra.launch({
+    headless: chromium.headless,
+    args: [...chromium.args, '--disable-dev-shm-usage'],
+    executablePath: await chromium.executablePath || puppeteer.executablePath(),
+    defaultViewport: chromium.defaultViewport,
+  });
   await page.emulateTimezone('America/Los_Angeles');
 
   await page.setRequestInterception(true);
@@ -52,15 +59,12 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("Searching for " + searchKeyword);
 
   const browser = await puppeteerExtra.launch({
-    headless: true,
-    args: [
-      '--start-maximized',
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled'
-    ],
-    defaultViewport: null,
+    headless: chromium.headless,
+    args: [...chromium.args, '--disable-dev-shm-usage'],
+    executablePath: await chromium.executablePath,
+    defaultViewport: chromium.defaultViewport,
   });
+
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
   const sites = JSON.parse(sitesRaw);
@@ -92,5 +96,6 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
