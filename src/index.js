@@ -59,6 +59,7 @@ export async function main(searchKeyword, numPerSite, category) {
       '--disable-blink-features=AutomationControlled'
     ],
     defaultViewport: null,
+    // executablePath: '/usr/bin/google-chrome',
   });
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
@@ -91,6 +92,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
