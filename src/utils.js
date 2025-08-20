@@ -78,6 +78,11 @@ export async function getAllSaved() {
 }
 
 import admin from 'firebase-admin';
+const keyPath = process.env.FIREBASE_KEY_PATH; // define keyPath
+if (!keyPath) {
+  throw new Error("FIREBASE_KEY_PATH environment variable not set");
+}
+
 const serviceAccount = JSON.parse(await fs.readFile(keyPath, 'utf-8'));
 
 if (!admin.apps.length) {
@@ -146,6 +151,7 @@ export async function sendAvg(query, token, products) {
     console.log(`✅ Sent average price ${averagePrice} to Android.`);
   }
 }
+
 
 
 
