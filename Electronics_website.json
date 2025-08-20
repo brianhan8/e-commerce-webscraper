@@ -1,0 +1,44 @@
+[
+  {
+    "site": "Amazon",
+    "url": "https://www.amazon.ca/s?k={query}",
+    "selectors": {
+      "productContainer": "div[data-component-type='s-search-result']",
+      "name": "h2 span",
+      "price": "span.a-price span.a-offscreen",
+      "image": "img.s-image",
+      "link": "div.s-title-instructions-style a.a-link-normal",
+      "rating": "span.a-icon-alt",
+      "reviewCount": "span[aria-label$='ratings'], span[aria-label$='rating']",
+      "nextPageSelector": "ul.a-pagination li.a-last a"
+    }
+  },
+  {
+    "site": "Newegg",
+    "url": "https://www.newegg.ca/p/pl?d={query}",
+    "selectors": {
+      "productContainer": "div.item-container",
+      "name": "a.item-title",
+      "price": "li.price-current > strong",
+      "image": "a.item-img img",
+      "link": "a.item-title",
+      "rating": "a.item-rating i.rating",
+      "reviewCount": "a.item-rating span.item-rating-num",
+      "nextPageSelector": "button.btn-next"
+    }
+  },
+  {
+    "site": "Ebay",
+    "url": "https://www.ebay.ca/sch/i.html?_nkw={query}&_sacat=0&_from=R40&_trksid=p2334524.m570.l1313&_odkw={query}&_osacat=0",
+    "selectors": {
+      "productContainer": "li.s-item",
+      "name": ".s-item__title span[role=\"heading\"]",
+      "price": ".s-item__price",
+      "image": ".s-item__image-wrapper img",  
+      "link": ".s-item__link",
+      "rating": "s-item__etrs-text",
+      "reviewCount": "s-item__seller-info-text",
+      "nextPageSelector": "a.pagination__next"
+    }
+  }
+]
