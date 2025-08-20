@@ -1,11 +1,12 @@
 import fs from "fs/promises";
-import puppeteer from "puppeteer-extra";
+import puppeteerExtra from "puppeteer-extra";
+import puppeteer from "puppeteer";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import UserAgent from "user-agents";
 import { scraper } from "./scraper.js";
 import { fetchBestBuyProducts } from "./bestBuy.js";
 
-puppeteer.use(StealthPlugin());
+puppeteerExtra.use(StealthPlugin());
 
 async function scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite) {
   const page = await browser.newPage();
@@ -50,7 +51,7 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
   console.log("Searching for " + searchKeyword);
 
-  const browser = await puppeteer.launch({
+  const browser = await puppeteerExtra.launch({
     headless: true,
     args: [
       '--start-maximized',
@@ -91,4 +92,5 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
