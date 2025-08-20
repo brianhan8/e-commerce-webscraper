@@ -52,6 +52,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: puppeteer.executablePath(),
     args: [
       '--start-maximized',
       '--no-sandbox',
@@ -91,4 +92,5 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
