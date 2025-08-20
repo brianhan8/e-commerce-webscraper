@@ -22,7 +22,7 @@
     "node-fetch": "^3.3.2",
     "puppeteer": "^21.3.8",
     "puppeteer-extra": "^3.3.4",
-    "puppeteer-extra-plugin-stealth": "^2.12.1",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "random-useragent": "^0.5.0",
     "user-agents": "^1.1.594",
     "uuid": "^11.1.0"
