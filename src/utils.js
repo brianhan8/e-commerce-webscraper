@@ -78,7 +78,7 @@ export async function getAllSaved() {
 }
 
 import admin from 'firebase-admin';
-const serviceAccount = JSON.parse(process.env.FIREBASE_KEY_JSON);
+const serviceAccount = JSON.parse(process.env.FIREBASE_KEY_PATH);
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -146,4 +146,5 @@ export async function sendAvg(query, token, products) {
     console.log(`✅ Sent average price ${averagePrice} to Android.`);
   }
 }
+
 
