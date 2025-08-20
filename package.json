@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
+    "postinstall": "puppeteer install chromium",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,8 +20,7 @@
     "mongoose": "^8.16.5",
     "node-cron": "^4.2.0",
     "node-fetch": "^3.3.2",
-    "puppeteer-core": "^24.16.2",
-    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer": "^24.16.2",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "random-useragent": "^0.5.0",
