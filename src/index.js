@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 import { scraper } from "./scraper.js";
 import { fetchBestBuyProducts } from "./bestBuy.js";
 
-puppeteer.use(StealthPlugin());
+puppeteerExtra.use(StealthPlugin());
 
 async function scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite) {
   const page = await browser.newPage();
@@ -91,6 +91,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
