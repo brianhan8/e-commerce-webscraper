@@ -53,7 +53,7 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
   console.log("Searching for " + searchKeyword);
 
-  const executablePath = await chromium.executablePath();
+  const executablePath = await chromium.executablePath() || puppeteerCore.executablePath();
 
   const browser = await puppeteerCore.launch({
     args: chromium.args,
@@ -92,6 +92,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
