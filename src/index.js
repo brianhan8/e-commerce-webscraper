@@ -2,7 +2,6 @@ import fs from "fs/promises";
 import puppeteerExtra from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import UserAgent from "user-agents";
-import puppeteer from "puppeteer";
 import { scraper } from "./scraper.js";
 import { fetchBestBuyProducts } from "./bestBuy.js";
 
@@ -90,6 +89,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
