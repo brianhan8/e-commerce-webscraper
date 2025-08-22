@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import UserAgent from "user-agents";
+import puppeteer from "puppeteer";
 import { scraper } from "./scraper.js";
 import { fetchBestBuyProducts } from "./bestBuy.js";
 
@@ -57,6 +58,7 @@ export async function main(searchKeyword, numPerSite, category) {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled'
     ],
+    executablePath: puppeteer.executablePath(),
   });
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
@@ -89,6 +91,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
