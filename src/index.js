@@ -53,8 +53,7 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
   console.log("Searching for " + searchKeyword);
 
-  async function launchBrowser() {
-  return await puppeteerExtra.launch({
+  const browser = await puppeteerExtra.launch({
     headless: true,
     executablePath: await chromium.executablePath, // critical for Render
     args: chromium.args.concat([
