@@ -47,49 +47,48 @@ export async function scraper(site, page, searchKeyword, numPerSite) {
     const productHandles = await page.$$(site.selectors.productContainer);
 
     for (const item of productHandles) {
-      if (products.length >= numPerSite) break;
+  if (products.length >= numPerSite) break;
 
-      const getText = async (selector) => {
-        if (!selector) return '';
-        const el = await item.$(selector);
-        return el ? (await item.$eval(selector, el => el.textContent.trim())) : '';
-      };
+  try {
+    const getText = async (selector) => {
+      if (!selector) return '';
+      const el = await item.$(selector);
+      return el ? (await item.$eval(selector, el => el.textContent.trim())) : '';
+    };
 
-      const getAttr = async (selector, attr) => {
-        if (!selector) return '';
-        const el = await item.$(selector);
-        return el ? (await el.evaluate((el, attrName) => el.getAttribute(attrName), attr)) : '';
-      };
+    const getAttr = async (selector, attr) => {
+      if (!selector) return '';
+      const el = await item.$(selector);
+      return el ? (await el.evaluate((el, attrName) => el.getAttribute(attrName), attr)) : '';
+    };
 
-      let [name, price, image, url, rating, reviewCount] = await Promise.all([
-        getText(site.selectors.name),
-        getText(site.selectors.price),
-        getAttr(site.selectors.image, 'src'),
-        getAttr(site.selectors.link, 'href'),
-        getText(site.selectors.rating),
-        getText(site.selectors.reviewCount)
-      ]);
+    let [name, price, image, url, rating, reviewCount] = await Promise.all([
+      getText(site.selectors.name),
+      getText(site.selectors.price),
+      getAttr(site.selectors.image, 'src'),
+      getAttr(site.selectors.link, 'href'),
+      getText(site.selectors.rating),
+      getText(site.selectors.reviewCount)
+    ]);
 
-      if (isWrongProduct(name) || isWrongProduct(price) || isWrongProduct(url)
-          || !name || !price || !url) {
-        continue;
-      }
-
-      name = cleanProductName(name);
-      price = cleanProductPrice(price);
-      if (typeof rating === 'string') {
-        rating = cleanProductRating(rating);
-      }
-      reviewCount = cleanProductReviewCount(reviewCount);
-
-      if (site.site === 'Amazon' && url) {
-        url = getRealAmazonUrl(url);
-      }
-
-      const product = { name, price, image, url, rating, reviewCount };
-      products.push(product);
+    if (isWrongProduct(name) || isWrongProduct(price) || isWrongProduct(url)
+        || !name || !price || !url) {
+      continue;
     }
 
+    name = cleanProductName(name);
+    price = cleanProductPrice(price);
+    if (typeof rating === 'string') rating = cleanProductRating(rating);
+    reviewCount = cleanProductReviewCount(reviewCount);
+
+    if (site.site === 'Amazon' && url) url = getRealAmazonUrl(url);
+
+    products.push({ name, price, image, url, rating, reviewCount });
+  } catch (err) {
+    console.warn(`Failed to extract product on ${site.site}:`, err.message);
+    continue; // skip this product
+  }
+}
     // Find next page URL if available
     if (site.selectors.nextPageSelector) {
       const nextPageLink = await page.$eval(site.selectors.nextPageSelector, el => el.href).catch(() => null);
@@ -105,3 +104,4 @@ export async function scraper(site, page, searchKeyword, numPerSite) {
   console.timeEnd(site.site);
   return products;
 }
+
