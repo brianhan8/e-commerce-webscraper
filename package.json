@@ -19,7 +19,7 @@
     "mongoose": "^8.16.5",
     "node-cron": "^4.2.0",
     "node-fetch": "^3.3.2",
-    "chrome-aws-lambda": "10.1.0",
+    "@sparticuz/chromium": "^112.0.0",
     "puppeteer-core": "^10.1.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
