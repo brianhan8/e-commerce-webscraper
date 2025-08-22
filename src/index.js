@@ -68,15 +68,20 @@ export async function main(searchKeyword, numPerSite, category) {
   // do best buy seperatlely
   const bestBuyPromise = fetchBestBuyProducts(searchKeyword, 1, numPerSite);
 
-  // Launch parallel scraping of all sites with a new page each
+  // Sequential scraping to prevent browser crashes
+  const scrapedProducts = [];
+  for (const site of sites) {
+    try {
+      const siteProducts = await scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite);
+      scrapedProducts.push(...siteProducts);
+    } catch (err) {
+      console.warn(`Failed scraping ${site.site}: ${err.message}`);
+    }
+  }
   
-  const scrapePromises = sites.map(site => scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite));
+  // Fetch BestBuy separately
+  const bestBuyProducts = await fetchBestBuyProducts(searchKeyword, 1, numPerSite);
 
-  const [bestBuyProducts, scrapedProductsArrays] = await Promise.all([
-    bestBuyPromise,
-    Promise.all(scrapePromises),
-  ]);
-  // const scrapedProductsArrays = await Promise.all(scrapePromises); // diable best buy so slow
 
 
   // Flatten the array of arrays into a single array
@@ -92,6 +97,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
