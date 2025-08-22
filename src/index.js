@@ -82,11 +82,6 @@ export async function main(searchKeyword, numPerSite, category) {
   // Fetch BestBuy separately
   const bestBuyProducts = await fetchBestBuyProducts(searchKeyword, 1, numPerSite);
 
-
-
-  // Flatten the array of arrays into a single array
-  const scrapedProducts = scrapedProductsArrays.flat();
-
   await browser.close();
 
   console.log('Done, browser closed.');
@@ -97,6 +92,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
