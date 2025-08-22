@@ -53,12 +53,12 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
   console.log("Searching for " + searchKeyword);
 
-  const executablePath = await chromium.executablePath || puppeteerCore.executablePath();
+  const executablePath = await chromium.executablePath();
 
   const browser = await puppeteerCore.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(),
+    executablePath: await chromium.executablePath,
     headless: chromium.headless,
   });
 
@@ -92,6 +92,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
