@@ -54,8 +54,7 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("Searching for " + searchKeyword);
 
   const browser = await puppeteerExtra.launch({
-    headless: true,
-    executablePath: await chromium.executablePath || undefined,
+    executablePath: await chromium.executablePath || puppeteerCore.executablePath(),
     args: chromium.args.concat([
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -94,6 +93,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
