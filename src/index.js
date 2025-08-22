@@ -53,7 +53,6 @@ export async function main(searchKeyword, numPerSite, category) {
 
   const browser = await puppeteerExtra.launch({
     headless: true,
-    executablePath: puppeteer.executablePath(),
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -91,6 +90,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
