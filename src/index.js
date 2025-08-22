@@ -6,7 +6,7 @@ import { scraper } from "./scraper.js";
 import { fetchBestBuyProducts } from "./bestBuy.js";
 
 import puppeteerCore from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
+import chromium from '@sparticuz/chromium';
 
 puppeteerExtra.use(StealthPlugin());
 
@@ -92,6 +92,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
