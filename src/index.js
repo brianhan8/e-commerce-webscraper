@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-import puppeteer from "puppeteer"; 
 import puppeteerExtra from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import UserAgent from "user-agents";
@@ -7,6 +6,7 @@ import { scraper } from "./scraper.js";
 import { fetchBestBuyProducts } from "./bestBuy.js";
 
 import chromium from "chrome-aws-lambda";
+import puppeteerCore from "puppeteer-core";
 
 puppeteerExtra.use(StealthPlugin());
 
@@ -56,11 +56,12 @@ export async function main(searchKeyword, numPerSite, category) {
   const browser = await puppeteerExtra.launch({
     headless: true,
     executablePath: await chromium.executablePath,
-    args: [
+    args: chromium.args.concat([
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled'
-    ],
+      '--disable-blink-features=AutomationControlled',
+    ]),
+    defaultViewport: { width: 1366, height: 768 },
   });
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
@@ -93,6 +94,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
