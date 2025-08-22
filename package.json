@@ -20,6 +20,7 @@
     "mongoose": "^8.16.5",
     "node-cron": "^4.2.0",
     "node-fetch": "^3.3.2",
+    "chrome-aws-lambda": "^20.2.0",
     "puppeteer-core": "^24.17.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
