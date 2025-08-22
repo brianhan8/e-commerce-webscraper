@@ -6,6 +6,8 @@ import UserAgent from "user-agents";
 import { scraper } from "./scraper.js";
 import { fetchBestBuyProducts } from "./bestBuy.js";
 
+import chromium from "chrome-aws-lambda";
+
 puppeteerExtra.use(StealthPlugin());
 
 async function scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite) {
@@ -91,6 +93,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
