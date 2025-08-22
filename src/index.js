@@ -53,12 +53,10 @@ export async function main(searchKeyword, numPerSite, category) {
   const browser = await puppeteer.launch({
     headless: true,
     args: [
-      '--start-maximized',
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled'
     ],
-    defaultViewport: null,
   });
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
@@ -91,6 +89,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
