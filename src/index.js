@@ -53,7 +53,7 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
   console.log("Searching for " + searchKeyword);
 
-  const browser = await puppeteer.launch({
+  const browser = await puppeteerExtra.launch({
     headless: true,
     args: [
       '--start-maximized',
@@ -94,6 +94,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
