@@ -47,12 +47,6 @@ async function scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite) {
   await page.close();
 
   return products || [];
-} catch (err) {
-    console.warn(`Error scraping ${site.site}:`, err.message);
-    return [];
-  } finally {
-    if (page && !page.isClosed()) await page.close();
-  }
 }
 
 export async function main(searchKeyword, numPerSite, category) {
@@ -103,6 +97,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
