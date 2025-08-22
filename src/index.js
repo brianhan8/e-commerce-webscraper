@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import puppeteer from "puppeteer-extra";
+import puppeteerExtra from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import UserAgent from "user-agents";
 import puppeteer from "puppeteer";
@@ -91,6 +91,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
