@@ -53,16 +53,18 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
   console.log("Searching for " + searchKeyword);
 
-  const browser = await puppeteerExtra.launch({
+  async function launchBrowser() {
+  return await puppeteerExtra.launch({
     headless: true,
-    args: [
-      '--start-maximized',
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled'
-    ],
-    defaultViewport: null,
+    executablePath: await chromium.executablePath, // critical for Render
+    args: chromium.args.concat([
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-blink-features=AutomationControlled",
+    ]),
+    defaultViewport: { width: 1366, height: 768 },
   });
+}
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
   const sites = JSON.parse(sitesRaw);
@@ -94,6 +96,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
