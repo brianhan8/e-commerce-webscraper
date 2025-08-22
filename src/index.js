@@ -11,43 +11,58 @@ import chromium from '@sparticuz/chromium';
 puppeteerExtra.use(StealthPlugin());
 
 async function scrapeSiteWithNewPage(browser, site, searchKeyword, numPerSite) {
-  const page = await browser.newPage();
+  let page;
+  try {
+    page = await browser.newPage();
 
-  const userAgent = new UserAgent();
-  await page.setUserAgent(userAgent.toString());
+    const userAgent = new UserAgent();
+    await page.setUserAgent(userAgent.toString());
 
-  await page.setExtraHTTPHeaders({
-    'accept-language': 'en-US,en;q=0.9',
-    'accept-encoding': 'gzip, deflate, br',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-    'upgrade-insecure-requests': '1',
-    'sec-fetch-site': 'none',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-user': '?1',
-    'sec-fetch-dest': 'document',
-  });
+    await page.setExtraHTTPHeaders({
+      'accept-language': 'en-US,en;q=0.9',
+      'accept-encoding': 'gzip, deflate, br',
+      'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+      'upgrade-insecure-requests': '1',
+      'sec-fetch-site': 'none',
+      'sec-fetch-mode': 'navigate',
+      'sec-fetch-user': '?1',
+      'sec-fetch-dest': 'document',
+    });
 
-  await page.setJavaScriptEnabled(true);
-  await page.setViewport({ width: 1366, height: 768 });
-  await page.emulateTimezone('America/Los_Angeles');
+    await page.setJavaScriptEnabled(true);
+    await page.setViewport({ width: 1366, height: 768 });
+    await page.emulateTimezone('America/Los_Angeles');
 
-  await page.setRequestInterception(true);
-  page.on('request', (req) => {
-    // const blocked = ['image', 'stylesheet', 'font', 'media'];
-    const blocked = [''];
-    if (blocked.includes(req.resourceType())) {
-      req.abort();
-    } else {
-      req.continue();
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+      const blocked = ['']; // add types if you want to block images, fonts, etc.
+      if (blocked.includes(req.resourceType())) req.abort();
+      else req.continue();
+    });
+
+    // Wrap scraping in try/catch to prevent failures
+    try {
+      const products = await scraper(site, page, searchKeyword, numPerSite);
+      return products || [];
+    } catch (scrapeErr) {
+      console.warn(`Scraping failed for ${site.site}: ${scrapeErr.message}`);
+      return [];
     }
-  });
 
-  const products = await scraper(site, page, searchKeyword, numPerSite);
-
-  await page.close();
-
-  return products || [];
+  } catch (err) {
+    console.error(`Error setting up page for ${site.site}: ${err.message}`);
+    return [];
+  } finally {
+    if (page && !page.isClosed()) {
+      try {
+        await page.close();
+      } catch (closeErr) {
+        console.warn(`Failed to close page for ${site.site}: ${closeErr.message}`);
+      }
+    }
+  }
 }
+
 
 export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
@@ -92,6 +107,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
