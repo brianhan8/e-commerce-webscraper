@@ -53,14 +53,15 @@ export async function main(searchKeyword, numPerSite, category) {
   console.log("-------------------------------")
   console.log("Searching for " + searchKeyword);
 
-  const browser = await puppeteerExtra.launch({
-    executablePath: await chromium.executablePath || puppeteerCore.executablePath(),
-    args: chromium.args.concat([
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--start-maximized',
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled',
-    ]),
-    defaultViewport: { width: 1366, height: 768 },
+      '--disable-blink-features=AutomationControlled'
+    ],
+    defaultViewport: null,
   });
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
@@ -93,6 +94,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
