@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import puppeteer from "puppeteer"; 
 import puppeteerExtra from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import UserAgent from "user-agents";
@@ -52,6 +53,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   const browser = await puppeteerExtra.launch({
     headless: true,
+    executablePath: puppeteer.executablePath(),
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -89,6 +91,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
