@@ -63,7 +63,6 @@ export async function main(searchKeyword, numPerSite, category) {
     ]),
     defaultViewport: { width: 1366, height: 768 },
   });
-}
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
   const sites = JSON.parse(sitesRaw);
@@ -95,6 +94,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
