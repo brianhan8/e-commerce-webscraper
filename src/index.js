@@ -58,7 +58,6 @@ export async function main(searchKeyword, numPerSite, category) {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled'
     ],
-    executablePath: puppeteer.executablePath(),
   });
 
   const sitesRaw = await fs.readFile(`${category}_website.json`, 'utf-8');
@@ -91,6 +90,7 @@ export async function main(searchKeyword, numPerSite, category) {
 
   return products;
 }
+
 
 
 
