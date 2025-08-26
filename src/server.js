@@ -62,20 +62,13 @@ app.get('/api/products/:queryId', async (req, res) => {
 // scrape products
 import cron from 'node-cron';
 
-// cron.schedule('0 8 * * *', () => {
-//   console.log('Starting scheduled scrapes for all saved queries...');
-//   runScrapes();
-// });
-
-cron.schedule('* * * * *', () => {
+cron.schedule('0 8 * * *', () => {
   console.log('Starting scheduled scrapes for all saved queries...');
   runScrapes();
 });
 
-
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://0.0.0.0:${PORT}`);
-  runScrapes(); // testing, run immediately on start
 });
 
 
@@ -166,4 +159,5 @@ async function runScrapes() {
     }
   }
 }
+
 
