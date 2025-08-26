@@ -62,7 +62,12 @@ app.get('/api/products/:queryId', async (req, res) => {
 // scrape products
 import cron from 'node-cron';
 
-cron.schedule('0 3 * * *', () => {
+// cron.schedule('0 8 * * *', () => {
+//   console.log('Starting scheduled scrapes for all saved queries...');
+//   runScrapes();
+// });
+
+cron.schedule('* * * * *', () => {
   console.log('Starting scheduled scrapes for all saved queries...');
   runScrapes();
 });
@@ -161,3 +166,4 @@ async function runScrapes() {
     }
   }
 }
+
