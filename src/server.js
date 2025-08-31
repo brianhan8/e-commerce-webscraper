@@ -65,6 +65,8 @@ import cron from 'node-cron';
 cron.schedule('0 8 * * *', () => {
   console.log('Starting scheduled scrapes for all saved queries...');
   runScrapes();
+}, {
+  timezone: "America/Los_Angeles"
 });
 
 app.listen(PORT, '0.0.0.0', () => {
@@ -160,6 +162,7 @@ async function runScrapes() {
     }
   }
 }
+
 
 
 
